@@ -1,0 +1,43 @@
+# Ignore build output folders
+bin/
+obj/
+
+# Ignore Visual Studio user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider config folder
+.idea/
+
+# Ignore VS Code config folder
+.vscode/
+
+# Ignore Playwright browser binaries cache folder
+.playwright/
+
+# Ignore NuGet package folders and artifacts
+.nuget/
+packages/
+*.nupkg
+*.snupkg
+
+# Ignore test results
+TestResults/
+
+# Ignore logs
+*.log
+
+# Ignore VS temporary files
+*.vs/
+
+# Ignore Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+
+# Ignore desktop.ini files
+Desktop.ini
+
+# Keep the 'lib/' folder (do NOT ignore)
+# Keep the 'n+my/' folder (do NOT ignore)
