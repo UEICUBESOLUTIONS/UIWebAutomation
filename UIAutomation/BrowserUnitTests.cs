@@ -17,7 +17,8 @@ namespace UIAutomation
         public async Task ExampleDotCom_Should_HaveCorrectTitle()
         {
             await _browser.NavigateToAsync("https://example.com");
-            Assert.That("Example Domain" == _browser.Title, "wrong");
+            Thread.Sleep(2000);
+            Assert.That("Example Domain" == _browser.Title, "Expected value is not correct");
         }
 
         [Test]
