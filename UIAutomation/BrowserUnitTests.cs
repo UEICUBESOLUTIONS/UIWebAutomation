@@ -24,7 +24,7 @@ namespace UIAutomation
         [Test]
         public async Task GetTitleAsync_ShouldReturnCorrectTitle()
         {
-            await _browser.NavigateToAsync("https://example.com");
+            await _browser.NavigateToAsync("https://example.com"); 
             var title = await _browser.GetTitleAsync();
             Assert.That(title, Is.EqualTo("Example Domain"));
         }
