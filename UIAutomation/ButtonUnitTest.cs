@@ -9,9 +9,7 @@ namespace UIAutomation
     [TestFixture]
     public class UIButtonTests
     {
-        private IPlaywright _playwright;
-        private IBrowser _browser;
-        private IPage _page;
+        IBrowserManager _browser = new UIBrowserManager();
 
         private UIButton _button;
 
@@ -19,18 +17,13 @@ namespace UIAutomation
         public async Task Setup()
         {
             // Initialize Playwright and launch browser
-            _playwright = await Playwright.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = true
-            });
-            _page = await _browser.NewPageAsync();
+            await _browser.LaunchBrowserAsync();
 
             // Navigate to test page
-            await _page.GotoAsync("https://example.com");
+            await _browser.NavigateToAsync("https://artoftesting.com/samplesiteforselenium");
 
             // Initialize UIButton with a selector (replace with actual button selector)
-            _button = new UIButton(_page, "h1"); // Example selector; replace with your button
+            _button = new UIButton(_browser.Page, "#idOfButton"); // Example selector; replace with your button
         }
 
         [Test]
@@ -120,8 +113,7 @@ namespace UIAutomation
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseAsync();
-            _playwright.Dispose();
+            await _browser.CloseBrowserAsync();
         }
     }
 }
