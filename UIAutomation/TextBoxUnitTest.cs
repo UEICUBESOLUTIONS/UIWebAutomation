@@ -3,42 +3,33 @@ using NUnit.Framework;
 using System.Drawing;
 using System.Threading.Tasks;
 using XPathion;
+using XPathion.Interfaces;
 
 namespace UIAutomation
 {
     [TestFixture]
     public class UITextBoxTests
     {
-        private IPlaywright _playwright;
-        private IBrowser _browser;
-        private IPage _page;
-        private IBrowserContext _context;
+
+        IBrowserManager _browser = new UIBrowserManager();
         private UITextBox _textBox;
 
-        private const string TestUrl = "https://the-internet.herokuapp.com/inputs";
-        private const string Selector = "input[type='number']";
+        private const string TestUrl = "https://artoftesting.com/samplesiteforselenium";
+        private const string Selector = "#fname";
 
         [SetUp]
         public async Task Setup()
         {
-            _playwright = await Playwright.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = true // change to false if you want to see browser UI
-            });
+            await _browser.LaunchBrowserAsync();
+            await _browser.NavigateToAsync(TestUrl);
 
-            _context = await _browser.NewContextAsync();
-            _page = await _context.NewPageAsync();
-
-            await _page.GotoAsync(TestUrl);
-
-            _textBox = new UITextBox(_page, Selector);
+            _textBox = new UITextBox(_browser.Page, Selector);
         }
 
         [Test]
         public async Task GetTextAsync_ShouldReturnEnteredValue()
         {
-            await _textBox.EnterTextAsync("123");
+            await _textBox.EnterTextAsync("1234");
             var text = await _textBox.GetTextAsync();
             Assert.That(text, Is.EqualTo("123"));
         }
@@ -59,15 +50,8 @@ namespace UIAutomation
 
         [Test]
         public async Task IsReadOnlyAsync_ShouldReturnFalse()
-        {
-            // Navigate to a stable test page with an editable input
-            await _page.GotoAsync("https://demo.playwright.dev/todomvc/",
-                new PageGotoOptions { WaitUntil = WaitUntilState.DOMContentLoaded });
-
-            // Use the main todo input field
-            var textBox = new UITextBox(_page, "input.new-todo");
-
-            var isReadOnly = await textBox.IsReadOnlyAsync();
+        {            
+            var isReadOnly = await _textBox.IsReadOnlyAsync();
             Assert.That(isReadOnly, Is.False);
         }
 
@@ -113,7 +97,7 @@ namespace UIAutomation
         public async Task ClickAsync_ShouldFocusTextBox()
         {
             await _textBox.ClickAsync();
-            bool isFocused = await _page.Locator(Selector).EvaluateAsync<bool>("el => document.activeElement === el");
+            bool isFocused = await _browser.Page.Locator(Selector).EvaluateAsync<bool>("el => document.activeElement === el");
             Assert.That(isFocused, Is.True);
         }
 
@@ -157,7 +141,7 @@ namespace UIAutomation
         {
             await _textBox.ClickAsync();
             await _textBox.PressTabAsync();
-            bool isFocused = await _page.Locator(Selector).EvaluateAsync<bool>("el => document.activeElement === el");
+            bool isFocused = await _browser.Page.Locator(Selector).EvaluateAsync<bool>("el => document.activeElement === el");
             Assert.That(isFocused, Is.False); // focus moved away
         }
 
@@ -180,8 +164,7 @@ namespace UIAutomation
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseAsync();
-            _playwright.Dispose();
+           await _browser.CloseBrowserAsync();
         }
     }
 }
