@@ -75,7 +75,7 @@ namespace UIAutomation
         public async Task ButtonTagName_ShouldReturnTag()
         {
             var tagName = await _button.GetTagNameAsync();
-            Assert.That(tagName, Is.EqualTo("h1"), "TagName should match the element"); // replace expected tag
+            Assert.That(tagName, Is.EqualTo("button"), "TagName should match the element"); // replace expected tag
         }
 
         [Test]

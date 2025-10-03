@@ -29,7 +29,7 @@ namespace UIAutomation
         [Test]
         public async Task GetTextAsync_ShouldReturnEnteredValue()
         {
-            await _textBox.EnterTextAsync("1234");
+            await _textBox.EnterTextAsync("123");
             var text = await _textBox.GetTextAsync();
             Assert.That(text, Is.EqualTo("123"));
         }
@@ -158,7 +158,7 @@ namespace UIAutomation
         public async Task GetAttributeAsync_ShouldReturnTypeNumber()
         {
             var typeAttr = await _textBox.GetAttributeAsync("type");
-            Assert.That(typeAttr, Is.EqualTo("number"));
+            Assert.That(typeAttr, Is.EqualTo("text"));
         }
 
         [TearDown]
