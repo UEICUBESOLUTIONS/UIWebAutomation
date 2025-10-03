@@ -9,13 +9,14 @@ namespace UIAutomation
     [TestFixture]
     public class UIButtonTests
     {
-        IBrowserManager _browser = new UIBrowserManager();
 
+        IBrowserManager _browser = new UIBrowserManager();
         private UIButton _button;
 
         [SetUp]
         public async Task Setup()
         {
+            
             // Initialize Playwright and launch browser
             await _browser.LaunchBrowserAsync();
 
@@ -30,7 +31,9 @@ namespace UIAutomation
         public async Task ButtonText_ShouldBeCorrect()
         {
             var text = await _button.GetTextAsync();
-            Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
+            await _button.ScrollIntoViewAsync();
+            Thread.Sleep(1000);
+            Assert.That(text,Is.EqualTo("Submit"));
         }
 
         [Test]
