@@ -9,12 +9,14 @@ namespace UIAutomation
     [TestFixture]
     public class UIButtonTests
     {
+
         IBrowserManager _browser = new UIBrowserManager();
         private UIButton _button;
 
         [SetUp]
         public async Task Setup()
         {
+            
             // Initialize Playwright and launch browser
             await _browser.LaunchBrowserAsync();
 
@@ -30,7 +32,9 @@ namespace UIAutomation
         public async Task ButtonText_ShouldBeCorrect()
         {
             var text = await _button.GetTextAsync();
-            Assert.That(text, Is.EqualTo("Submit"), "Button text should be correct");
+            await _button.ScrollIntoViewAsync();
+            Thread.Sleep(1000);
+            Assert.That(text,Is.EqualTo("Submit"));
         }
 
         [Test]
@@ -79,7 +83,7 @@ namespace UIAutomation
         public async Task ButtonTagName_ShouldReturnTag()
         {
             var tagName = await _button.GetTagNameAsync();
-            Assert.That(tagName.ToLower(), Is.EqualTo("button"), "TagName should match the element");
+            Assert.That(tagName, Is.EqualTo("button"), "TagName should match the element"); // replace expected tag
         }
 
         [Test]
