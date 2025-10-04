@@ -10,7 +10,6 @@ namespace UIAutomation
     public class UIButtonTests
     {
         IBrowserManager _browser = new UIBrowserManager();
-
         private UIButton _button;
 
         [SetUp]
@@ -23,14 +22,15 @@ namespace UIAutomation
             await _browser.NavigateToAsync("https://artoftesting.com/samplesiteforselenium");
 
             // Initialize UIButton with a selector (replace with actual button selector)
-            _button = new UIButton(_browser.Page, "#idOfButton"); // Example selector; replace with your button
+            _button = new UIButton(_browser.Page, "#submitbtn"); // Replace with the actual button ID or CSS selector
+
         }
 
         [Test]
         public async Task ButtonText_ShouldBeCorrect()
         {
             var text = await _button.GetTextAsync();
-            Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
+            Assert.That(text, Is.EqualTo("Submit"), "Button text should be correct");
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace UIAutomation
 
         [Test]
         public async Task ButtonCssClass_ShouldReturnValue()
-        {
+        { 
             var cssClass = await _button.GetCssClassAsync();
             Assert.That(cssClass, Is.Not.Null, "CssClass should return a value");
         }
@@ -58,21 +58,28 @@ namespace UIAutomation
         public async Task ButtonToolTip_ShouldReturnValue()
         {
             var tooltip = await _button.GetToolTipAsync();
-            Assert.That(tooltip, Is.Not.Null, "Tooltip should return a value");
+            Assert.That(tooltip, Is.EqualTo("Hovering over me!!"), "Tooltip should return correct value");
+        }
+
+        [Test]
+        public async Task DoubleClickAsync_ShouldWork()
+        {
+            await _button.DoubleClickAsync();
+            Assert.Pass("DoubleClickAsync executed successfully");
         }
 
         [Test]
         public async Task ButtonAriaLabel_ShouldReturnValue()
         {
             var ariaLabel = await _button.GetAriaLabelAsync();
-            Assert.That(ariaLabel, Is.Not.Null, "AriaLabel should return a value");
+            Assert.That(ariaLabel, Is.Not.Null.And.Not.Empty, "AriaLabel should return a value");
         }
 
         [Test]
         public async Task ButtonTagName_ShouldReturnTag()
         {
             var tagName = await _button.GetTagNameAsync();
-            Assert.That(tagName, Is.EqualTo("h1"), "TagName should match the element"); // replace expected tag
+            Assert.That(tagName.ToLower(), Is.EqualTo("button"), "TagName should match the element");
         }
 
         [Test]
@@ -84,30 +91,45 @@ namespace UIAutomation
         }
 
         [Test]
-        public async Task ButtonActions_ShouldWork()
+        public async Task Button_Click_ShouldWork()
         {
-            // Test click
             await _button.ClickAsync();
+            Assert.Pass("ClickAsync executed successfully");
+        }
 
-            // Test double-click
-            await _button.DoubleClickAsync();
-
-            // Test hover
+        [Test]
+        public async Task Button_Hover_ShouldWork()
+        {
             await _button.HoverAsync();
+            Assert.Pass("HoverAsync executed successfully");
+        }
 
-            // Test focus
+        [Test]
+        public async Task Button_Focus_ShouldWork()
+        {
             await _button.FocusAsync();
+            Assert.Pass("FocusAsync executed successfully");
+        }
 
-            // Test right-click
+        [Test]
+        public async Task Button_RightClick_ShouldWork()
+        {
             await _button.RightClickAsync();
+            Assert.Pass("RightClickAsync executed successfully");
+        }
 
-            // Test scroll into view
+        [Test]
+        public async Task Button_ScrollIntoView_ShouldWork()
+        {
             await _button.ScrollIntoViewAsync();
+            Assert.Pass("ScrollIntoViewAsync executed successfully");
+        }
 
-            // Test submit (will only work if button is in a form)
+        [Test]
+        public async Task Button_Submit_ShouldWork()
+        {
             await _button.SubmitAsync();
-
-            Assert.Pass("All button actions executed without exceptions");
+            Assert.Pass("SubmitAsync executed successfully");
         }
 
         [TearDown]
