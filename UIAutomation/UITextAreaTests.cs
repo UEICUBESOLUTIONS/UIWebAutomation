@@ -13,22 +13,27 @@ namespace UIAutomation
         IBrowserManager _browser = new UIBrowserManager();
         private UITextArea _textArea;
         private const string TestUrl = "https://codebeautify.org/html-textarea-generator";
-        private const string Selector = "textarea[name='text']"; 
+        private const string Selector = "textarea[name='text']";
 
         [SetUp]
         public async Task Setup()
         {
             await _browser.LaunchBrowserAsync();
-            _browser.Page.SetDefaultNavigationTimeout(60000); // allow slow load
+            _browser.Page.SetDefaultTimeout(30000); // strict 30s timeout
             await _browser.Page.GotoAsync(TestUrl, new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.DOMContentLoaded  // load only basic HTML
+                WaitUntil = WaitUntilState.DOMContentLoaded
             });
-
-            // FIX: Always use IPage for UITextArea constructor
             _textArea = new UITextArea(_browser.Page, Selector);
         }
 
+        [Test]
+        public async Task EnterTextAsync_ShouldInputValue()
+        {
+            await _textArea.EnterTextAsync("Playwright Test");
+            var text = await _textArea.GetTextAsync();
+            Assert.That(text, Is.EqualTo("Playwright Test"), "TextArea should accept input text");
+        }
 
         [Test]
         public async Task GetTextAsync_ShouldReturnEnteredValue()
@@ -46,13 +51,14 @@ namespace UIAutomation
             var value = await _textArea.GetTextAsync();
             Assert.That(value, Is.EqualTo(""));
         }
-         [Test]
-        public async Task AppendTextAsync()
+
+        [Test]
+        public async Task AppendTextAsync_ShouldAddExtraText()
         {
-            // Get the current value of the textarea
-            var currentValue = await _textArea.GetTextAsync();
-            // Append the new text to the current value
-            await _textArea.EnterTextAsync(currentValue + "AppendedText");
+            await _textArea.EnterTextAsync("Initial");
+            await _textArea.EnterTextAsync("Initial AppendedText");
+            var value = await _textArea.GetTextAsync();
+            Assert.That(value.Contains("AppendedText"), Is.True);
         }
 
         [Test]
@@ -90,7 +96,6 @@ namespace UIAutomation
         {
             var cssClass = await _textArea.GetCssClassAsync();
             Assert.That(cssClass, Is.Null.Or.Not.Empty);
-
         }
 
         [Test]
@@ -132,6 +137,27 @@ namespace UIAutomation
             await _textArea.ScrollIntoViewAsync();
             bool visible = await _textArea.IsDisplayedAsync();
             Assert.That(visible, Is.True);
+        }
+
+        [Test]
+        public async Task GetAttributeAsync_ShouldReturnValue()
+        {
+            var nameAttr = await _textArea.GetAttributeAsync("name");
+            Assert.That(nameAttr, Is.EqualTo("text").IgnoreCase);
+        }
+
+        [Test]
+        public async Task GetMaxLengthAsync_ShouldReturnExpectedValueOrZero()
+        {
+            int maxLength = await _textArea.GetMaxLengthAsync();
+            Assert.That(maxLength, Is.GreaterThanOrEqualTo(0));
+        }
+
+        [Test]
+        public async Task GetToolTipAsync_ShouldReturnValueOrNull()
+        {
+            var tooltip = await _textArea.GetToolTipAsync();
+            Assert.That(tooltip, Is.Null.Or.Not.Empty);
         }
 
         [TearDown]
