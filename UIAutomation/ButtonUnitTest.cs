@@ -22,7 +22,7 @@ namespace UIAutomation
 
         UIBrowserManager _browser = new UIBrowserManager();
 
-
+        private UIButton _cButton;
 
         private UIButton _button;
 
@@ -49,10 +49,33 @@ namespace UIAutomation
             // Initialize UIButton with a selector (replace with actual button selector)
 
             _button = new UIButton(_browser.Page, "#idOfButton"); // Example selector; replace with your button
+            _cButton = new UIButton(_browser.Page,"#ConfirmBox");
+        }
+
+
+        [Test]
+        public async Task Button_AcceptAlert()
+        {
+
+            await _cButton.Click();
+            Thread.Sleep(1000);
+            await _browser.AcceptAlert();
+            Thread.Sleep(3000);
+            //Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
 
         }
 
 
+        [Test]
+        public async Task Button_DismissAlert()
+        {
+            await _cButton.Click();
+            Thread.Sleep(1000);
+            await _browser.DismissAlert();
+            Assert.That(_browser.GetAlertText, Is.EqualTo("Press a button!"),"Not Matching");
+            //Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
+
+        }
 
         [Test]
 

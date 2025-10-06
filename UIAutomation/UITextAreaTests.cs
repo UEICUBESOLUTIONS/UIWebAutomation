@@ -18,7 +18,7 @@ namespace UIAutomation
         [SetUp]
         public async Task Setup()
         {
-            await _browser.LaunchBrowser();
+            await _browser.LaunchBrowser("chrome");
             _browser.Page.SetDefaultTimeout(30000); // strict 30s timeout
             await _browser.Page.GotoAsync(TestUrl, new PageGotoOptions
             {
