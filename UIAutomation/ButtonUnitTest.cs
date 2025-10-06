@@ -36,13 +36,13 @@ namespace UIAutomation
 
             // Initialize Playwright and launch browser
 
-            await _browser.LaunchBrowserAsync();
+            await _browser.LaunchBrowser();
 
 
 
             // Navigate to test page
 
-            await _browser.NavigateToAsync("https://artoftesting.com/samplesiteforselenium");
+            await _browser.NavigateTo("https://artoftesting.com/samplesiteforselenium");
 
 
 
@@ -60,7 +60,7 @@ namespace UIAutomation
 
         {
 
-            var text = await _button.GetTextAsync();
+            var text = await _button.GetText();
 
             Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
 
@@ -74,7 +74,7 @@ namespace UIAutomation
 
         {
 
-            var visible = await _button.IsVisibleAsync();
+            var visible = await _button.IsVisible();
 
             Assert.That(visible, Is.True, "Button should be visible");
 
@@ -88,7 +88,7 @@ namespace UIAutomation
 
         {
 
-            var enabled = await _button.IsEnabledAsync();
+            var enabled = await _button.IsEnabled();
 
             Assert.That(enabled, Is.True, "Button should be enabled");
 
@@ -102,7 +102,7 @@ namespace UIAutomation
 
         {
 
-            var cssClass = await _button.GetCssClassAsync();
+            var cssClass = await _button.GetCssClass();
 
             Assert.That(cssClass, Is.Not.Null, "CssClass should return a value");
 
@@ -116,7 +116,7 @@ namespace UIAutomation
 
         {
 
-            var tooltip = await _button.GetToolTipAsync();
+            var tooltip = await _button.GetToolTip();
 
             Assert.That(tooltip, Is.Not.Null, "Tooltip should return a value");
 
@@ -130,7 +130,7 @@ namespace UIAutomation
 
         {
 
-            var ariaLabel = await _button.GetAriaLabelAsync();
+            var ariaLabel = await _button.GetAriaLabel();
 
             Assert.That(ariaLabel, Is.Not.Null, "AriaLabel should return a value");
 
@@ -144,7 +144,7 @@ namespace UIAutomation
 
         {
 
-            var tagName = await _button.GetTagNameAsync();
+            var tagName = await _button.GetTagName();
 
             Assert.That(tagName, Is.EqualTo("button"), "TagName should match the element"); // replace expected tag
 
@@ -158,7 +158,7 @@ namespace UIAutomation
 
         {
 
-            var bounds = await _button.GetBoundsAsync();
+            var bounds = await _button.GetBounds();
 
             Assert.That(bounds.Width, Is.GreaterThan(0), "Button width should be greater than 0");
 
@@ -176,43 +176,43 @@ namespace UIAutomation
 
             // Test click
 
-            await _button.ClickAsync();
+            await _button.Click();
 
 
 
             // Test double-click
 
-            await _button.DoubleClickAsync();
+            await _button.DoubleClick();
 
 
 
             // Test hover
 
-            await _button.HoverAsync();
+            await _button.Hover();
 
 
 
             // Test focus
 
-            await _button.FocusAsync();
+            await _button.Focus();
 
 
 
             // Test right-click
 
-            await _button.RightClickAsync();
+            await _button.RightClick();
 
 
 
             // Test scroll into view
 
-            await _button.ScrollIntoViewAsync();
+            await _button.ScrollIntoView();
 
 
 
             // Test submit (will only work if button is in a form)
 
-            await _button.SubmitAsync();
+            await _button.Submit();
 
 
 
@@ -228,7 +228,7 @@ namespace UIAutomation
 
         {
 
-            await _browser.CloseBrowserAsync();
+            await _browser.CloseBrowser();
 
         }
 

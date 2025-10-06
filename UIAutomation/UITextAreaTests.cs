@@ -18,7 +18,7 @@ namespace UIAutomation
         [SetUp]
         public async Task Setup()
         {
-            await _browser.LaunchBrowserAsync();
+            await _browser.LaunchBrowser();
             _browser.Page.SetDefaultTimeout(30000); // strict 30s timeout
             await _browser.Page.GotoAsync(TestUrl, new PageGotoOptions
             {
@@ -163,7 +163,7 @@ namespace UIAutomation
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseBrowserAsync();
+            await _browser.CloseBrowser();
         }
     }
 }

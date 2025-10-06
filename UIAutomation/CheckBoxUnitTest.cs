@@ -20,8 +20,8 @@ namespace UIAutomation
         [SetUp]
         public async Task Setup()
         {
-            await _browser.LaunchBrowserAsync();
-            await _browser.NavigateToAsync(TestUrl);
+            await _browser.LaunchBrowser();
+            await _browser.NavigateTo(TestUrl);
             _checkBox = new UICheckBox(_browser.Page, Selector);
         }
 
@@ -158,7 +158,7 @@ namespace UIAutomation
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseBrowserAsync();
+            await _browser.CloseBrowser();
         }
     }
 }
