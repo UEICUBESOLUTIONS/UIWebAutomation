@@ -18,10 +18,10 @@ namespace UIAutomation
         {
             
             // Initialize Playwright and launch browser
-            await _browser.LaunchBrowserAsync();
+            await _browser.LaunchBrowser();
 
             // Navigate to test page
-            await _browser.NavigateToAsync("https://artoftesting.com/samplesiteforselenium");
+            await _browser.NavigateTo("https://artoftesting.com/samplesiteforselenium");
 
             // Initialize UIButton with a selector (replace with actual button selector)
             _button = new UIButton(_browser.Page, "#idOfButton"); // Example selector; replace with your button
@@ -30,8 +30,8 @@ namespace UIAutomation
         [Test]
         public async Task ButtonText_ShouldBeCorrect()
         {
-            var text = await _button.GetTextAsync();
-            await _button.ScrollIntoViewAsync();
+            var text = await _button.GetText();
+            await _button.ScrollIntoView();
             Thread.Sleep(1000);
             Assert.That(text,Is.EqualTo("Submit"));
         }
@@ -39,49 +39,49 @@ namespace UIAutomation
         [Test]
         public async Task Button_ShouldBeVisible()
         {
-            var visible = await _button.IsVisibleAsync();
+            var visible = await _button.IsVisible();
             Assert.That(visible, Is.True, "Button should be visible");
         }
 
         [Test]
         public async Task Button_ShouldBeEnabled()
         {
-            var enabled = await _button.IsEnabledAsync();
+            var enabled = await _button.IsEnabled();
             Assert.That(enabled, Is.True, "Button should be enabled");
         }
 
         [Test]
         public async Task ButtonCssClass_ShouldReturnValue()
         {
-            var cssClass = await _button.GetCssClassAsync();
+            var cssClass = await _button.GetCssClass();
             Assert.That(cssClass, Is.Not.Null, "CssClass should return a value");
         }
 
         [Test]
         public async Task ButtonToolTip_ShouldReturnValue()
         {
-            var tooltip = await _button.GetToolTipAsync();
+            var tooltip = await _button.GetToolTip();
             Assert.That(tooltip, Is.Not.Null, "Tooltip should return a value");
         }
 
         [Test]
         public async Task ButtonAriaLabel_ShouldReturnValue()
         {
-            var ariaLabel = await _button.GetAriaLabelAsync();
+            var ariaLabel = await _button.GetAriaLabel();
             Assert.That(ariaLabel, Is.Not.Null, "AriaLabel should return a value");
         }
 
         [Test]
         public async Task ButtonTagName_ShouldReturnTag()
         {
-            var tagName = await _button.GetTagNameAsync();
+            var tagName = await _button.GetTagName();
             Assert.That(tagName, Is.EqualTo("button"), "TagName should match the element"); // replace expected tag
         }
 
         [Test]
         public async Task ButtonBounds_ShouldReturnRectangle()
         {
-            var bounds = await _button.GetBoundsAsync();
+            var bounds = await _button.GetBounds();
             Assert.That(bounds.Width, Is.GreaterThan(0), "Button width should be greater than 0");
             Assert.That(bounds.Height, Is.GreaterThan(0), "Button height should be greater than 0");
         }
@@ -90,25 +90,25 @@ namespace UIAutomation
         public async Task ButtonActions_ShouldWork()
         {
             // Test click
-            await _button.ClickAsync();
+            await _button.Click();
 
             // Test double-click
-            await _button.DoubleClickAsync();
+            await _button.DoubleClick();
 
             // Test hover
-            await _button.HoverAsync();
+            await _button.Hover();
 
             // Test focus
-            await _button.FocusAsync();
+            await _button.Focus();
 
             // Test right-click
-            await _button.RightClickAsync();
+            await _button.RightClick();
 
             // Test scroll into view
-            await _button.ScrollIntoViewAsync();
+            await _button.ScrollIntoView();
 
             // Test submit (will only work if button is in a form)
-            await _button.SubmitAsync();
+            await _button.Submit();
 
             Assert.Pass("All button actions executed without exceptions");
         }
@@ -116,7 +116,7 @@ namespace UIAutomation
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseBrowserAsync();
+            await _browser.CloseBrowser();
         }
     }
 }

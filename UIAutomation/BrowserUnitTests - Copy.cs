@@ -11,13 +11,13 @@ namespace UIAutomation
         [SetUp]
         public async Task Setup()
         {
-            await _browser.LaunchBrowserAsync();
+            await _browser.LaunchBrowser();
         }
 
         [Test]
         public async Task ExampleDotCom_Should_HaveCorrectTitle()
         {
-            await _browser.NavigateToAsync("https://example.com");
+            await _browser.NavigateTo("https://example.com");
             Thread.Sleep(2000);
             Assert.That("Example Domain" == _browser.Title, "Expected value is not correct");
         }
@@ -25,15 +25,15 @@ namespace UIAutomation
         [Test]
         public async Task GetTitleAsync_ShouldReturnCorrectTitle()
         {
-            await _browser.NavigateToAsync("https://example.com");
-            var title = await _browser.GetTitleAsync();
+            await _browser.NavigateTo("https://example.com");
+            var title = await _browser.GetTitle();
             Assert.That(title, Is.EqualTo("Example Domain"));
         }
 
         [Test]
         public async Task Url_ShouldReturnCorrectUrl()
         {
-            await _browser.NavigateToAsync("https://example.com");
+            await _browser.NavigateTo("https://example.com");
             Assert.That(_browser.Url, Is.EqualTo("https://example.com/"));
         }
 
@@ -47,14 +47,14 @@ namespace UIAutomation
         [Test]
         public async Task CurrentWindowHandle_ShouldReturnHandle()
         {
-            await _browser.NavigateToAsync("https://example.com");
+            await _browser.NavigateTo("https://example.com");
             Assert.That(_browser.CurrentWindowHandle, Is.Not.Null);
         }
 
         [TearDown]
         public async Task Cleanup()
         {
-            await _browser.CloseBrowserAsync();
+            await _browser.CloseBrowser();
         }
     }
 }
