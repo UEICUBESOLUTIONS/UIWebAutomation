@@ -73,8 +73,6 @@ namespace UIAutomation
             Thread.Sleep(1000);
             await _browser.DismissAlert();
             Assert.That(_browser.GetAlertText, Is.EqualTo("Press a button!"),"Not Matching");
-            //Assert.That(text, Is.Not.Null.And.Not.Empty, "Button text should not be null or empty");
-
         }
 
         [Test]
