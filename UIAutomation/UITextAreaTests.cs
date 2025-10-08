@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using System.Drawing;
 using System.Threading.Tasks;
+using XPathion;
+using XPathion.Interfaces;
 
 namespace UIAutomation
 {
@@ -9,7 +11,7 @@ namespace UIAutomation
     public class UITextAreaTests
     {
         IBrowserManager _browser = new UIBrowserManager();
-        private UITextArea _textArea;
+        private ITextArea _textArea;
         private const string TestUrl = "https://codebeautify.org/html-textarea-generator";
         private const string Selector = "textarea[name='text']";
 
