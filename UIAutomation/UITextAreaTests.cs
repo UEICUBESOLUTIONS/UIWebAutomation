@@ -1,9 +1,6 @@
 ﻿using Microsoft.Playwright;
 using NUnit.Framework;
-using System.Drawing;
 using System.Threading.Tasks;
-using XPathion;
-using XPathion.Interfaces;
 
 namespace UIAutomation
 {
