@@ -9,7 +9,7 @@ using XPathion.Interfaces;
 namespace UIAutomation
 {
     [TestFixture]
-    public class UILabelTests
+    public class LabelUnitTest
     {
         // NOTE: Replace IBrowserManager with the actual interface/class you use for browser management.
         // I'm using a placeholder type for compilation purposes.

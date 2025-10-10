@@ -1,5 +1,3 @@
-
-
 using XPathion;
 using XPathion.Interfaces;
 namespace UIAutomation
