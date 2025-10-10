@@ -1,176 +1,141 @@
-using Microsoft.Playwright;
 using NUnit.Framework;
 using System.Threading.Tasks;
-
+using XPathion;
+using XPathion.Interfaces;
 namespace UIAutomation
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
-    public class UIButtonTests
+    public class ButtonUnitTests
     {
-        private IBrowser? _browser;
-        private IPage? _page;
-        private ILocator? _button;
-
-        private const string TestUrl = "https://artoftesting.com/samplesiteforselenium"; // Update as needed
-        private const string Selector = "#idOfButton"; // Replace with actual button selector
+        IBrowserManager _browser = new UIBrowserManager();
+        
+        private const string TestUrl = "https://codebeautify.org/html-textarea-generator"; // Update as needed
+        private const string Selector = "#defaultAction"; // Replace with actual button selector
+        IButton _button; 
 
         [SetUp]
         public async Task Setup()
         {
-            var playwright = await Playwright.CreateAsync();
-            _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-            _page = await _browser.NewPageAsync();
-            await _page.GotoAsync(TestUrl);
-
-            _button = _page.Locator(Selector);
+            await _browser.LaunchBrowser();
+            _browser.Page.SetDefaultTimeout(30000); // strict 30s timeout
+            await _browser.Page.GotoAsync(TestUrl);
+            _button = new UIButton(_browser.Page, Selector);
         }
 
         [TearDown]
         public async Task Cleanup()
         {
             if (_browser != null)
-                await _browser.CloseAsync();
+                await _browser.CloseBrowser();
         }
 
         // ---------------- Actions ----------------
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task Click_Test(string browserName)
+        public async Task Click_Test()
         {
-            await _button!.ClickAsync();
+            await _button!.Click();
             Assert.Pass("Click executed successfully");
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task DoubleClick_Test(string browserName)
+        public async Task DoubleClick_Test()
         {
-            await _button!.DblClickAsync();
+            await _button!.DoubleClick();
             Assert.Pass("DoubleClick executed successfully");
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task Focus_Test(string browserName)
+        public async Task Focus_Test()
         {
-            await _button!.FocusAsync();
-            bool isFocused = await _page!.EvaluateAsync<bool>(
+            await _button!.Focus();
+            bool isFocused = await _browser.Page!.EvaluateAsync<bool>(
                 $"el => document.activeElement === document.querySelector('{Selector}')");
             Assert.That(isFocused, Is.True);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task Hover_Test(string browserName)
+        public async Task Hover_Test()
         {
-            await _button!.HoverAsync();
+            await _button!.Hover();
             Assert.Pass("Hover executed successfully");
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task RightClick_Test(string browserName)
+        public async Task RightClick_Test()
         {
-            await _button!.ClickAsync(new LocatorClickOptions { Button = MouseButton.Right });
+            await _button!.RightClick();
             Assert.Pass("RightClick executed successfully");
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task ScrollIntoView_Test(string browserName)
+        public async Task ScrollIntoView_Test()
         {
-            await _button!.ScrollIntoViewIfNeededAsync();
-            bool visible = await _button.IsVisibleAsync();
+            await _button!.ScrollIntoView();
+            bool visible = await _button.IsVisible();
             Assert.That(visible, Is.True);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task Submit_Test(string browserName)
+        public async Task Submit_Test()
         {
-            await _button!.EvaluateAsync("el => el.form?.submit()");
+            await _button!.Submit();
             Assert.Pass("Submit executed successfully");
         }
 
         // ---------------- Properties ----------------
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetAriaLabel_Test(string browserName)
+        public async Task GetAriaLabel_Test()
         {
-            var ariaLabel = await _button!.GetAttributeAsync("aria-label");
+            var ariaLabel = await _button!.GetAriaLabel();
             Assert.That(ariaLabel, Is.Null.Or.Not.Empty);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetBounds_Test(string browserName)
+        public async Task GetBounds_Test()
         {
-            var box = await _button!.BoundingBoxAsync();
+            var box = await _button!.GetBounds();
             Assert.That(box.Width, Is.GreaterThan(0));
             Assert.That(box.Height, Is.GreaterThan(0));
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetCssClass_Test(string browserName)
+        public async Task GetCssClass_Test()
         {
-            var cssClass = await _button!.GetAttributeAsync("class");
+            var cssClass = await _button!.GetCssClass();
             Assert.That(cssClass, Is.Null.Or.Not.Empty);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetTagName_Test(string browserName)
+        public async Task GetTagName_Test()
         {
-            var tagName = await _button!.EvaluateAsync<string>("el => el.tagName");
+            var tagName = await _button!.GetTagName();
             Assert.That(tagName.ToLower(), Is.EqualTo("button"));
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetText_Test(string browserName)
+        public async Task GetText_Test()
         {
-            var text = await _button!.InnerTextAsync();
+            var text = await _button!.GetText();
             Assert.That(text, Is.Not.Null.Or.Empty);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task GetToolTip_Test(string browserName)
+        public async Task GetToolTip_Test()
         {
-            var tooltip = await _button!.GetAttributeAsync("title");
+            var tooltip = await _button!.GetToolTip();
             Assert.That(tooltip, Is.Null.Or.Not.Empty);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task IsEnabled_Test(string browserName)
+        public async Task IsEnabled_Test()
         {
-            bool enabled = await _button!.IsEnabledAsync();
+            bool enabled = await _button!.IsEnabled();
             Assert.That(enabled, Is.True);
         }
 
         [Test]
-        [TestCase("chromium")]
-        [TestCase("msedge")]
-        public async Task IsVisible_Test(string browserName)
+        public async Task IsVisible_Test()
         {
-            bool visible = await _button!.IsVisibleAsync();
+            bool visible = await _button!.IsVisible();
             Assert.That(visible, Is.True);
         }
     }
